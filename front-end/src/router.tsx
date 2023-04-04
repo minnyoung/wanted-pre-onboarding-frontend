@@ -7,7 +7,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/signin" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
