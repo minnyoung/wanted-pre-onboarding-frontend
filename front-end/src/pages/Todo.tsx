@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useMakeUserTodo from "../hooks/useMakeUserTodo";
-
-type TodoListType = {
-  id: number;
-  todo: string;
-  isCompleted: boolean;
-  userId: string;
-};
+import TodoList from "../components/TodoList";
+import { TodoListType } from "../types/todoList.type";
 
 export default function Todo() {
   const { userTodo, handleUserTodo } = useMakeUserTodo();
@@ -64,16 +59,7 @@ export default function Todo() {
       >
         추가
       </button>
-      <ul>
-        {todoList.map((todo) => (
-          <li key={todo.id}>
-            <label>
-              <input type="checkbox" checked={todo.isCompleted} />
-              <span>{todo.todo}</span>
-            </label>
-          </li>
-        ))}
-      </ul>
+      <TodoList todoList={todoList} />
     </div>
   );
 }
