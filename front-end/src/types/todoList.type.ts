@@ -11,4 +11,5 @@ export type TodoListPropsType = {
 
 export type TodoType = {
   todo: TodoListType;
+  todoList: TodoListType[];
 };

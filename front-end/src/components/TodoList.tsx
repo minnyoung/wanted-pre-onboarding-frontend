@@ -6,7 +6,7 @@ export default function TodoList({ todoList }: TodoListPropsType) {
     <div>
       <ul>
         {todoList.map((todo: TodoListType) => (
-          <Todo todo={todo} key={todo.id} />
+          <Todo todo={todo} todoList={todoList} key={todo.id} />
         ))}
       </ul>
     </div>
