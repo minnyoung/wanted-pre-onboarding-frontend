@@ -3,9 +3,13 @@ import { TodoType } from "../types/todoList.type";
 export default function Todo({ todo, todoList }: TodoType) {
   const userToken = localStorage.getItem("userToken");
 
-  async function fetchDeleteTodo() {
+  function confirmDeleteTodo() {
     const deleteTodoAnswer = window.confirm("삭제하시겠습니까?");
-    deleteTodoAnswer &&
+    return deleteTodoAnswer;
+  }
+
+  async function fetchDeleteTodo() {
+    confirmDeleteTodo() &&
       (await fetch(
         `https://www.pre-onboarding-selection-task.shop/todos/${todo.id}`,
         {
