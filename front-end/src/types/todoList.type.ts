@@ -8,3 +8,7 @@ export type TodoListType = {
 export type TodoListPropsType = {
   todoList: TodoListType[];
 };
+
+export type TodoType = {
+  todo: TodoListType;
+};

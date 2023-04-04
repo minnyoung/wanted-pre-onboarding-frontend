@@ -1,3 +1,4 @@
+import Todo from "./Todo";
 import { TodoListPropsType, TodoListType } from "../types/todoList.type";
 
 export default function TodoList({ todoList }: TodoListPropsType) {
@@ -5,12 +6,7 @@ export default function TodoList({ todoList }: TodoListPropsType) {
     <div>
       <ul>
         {todoList.map((todo: TodoListType) => (
-          <li key={todo.id}>
-            <label>
-              <input type="checkbox" checked={todo.isCompleted} />
-              <span>{todo.todo}</span>
-            </label>
-          </li>
+          <Todo todo={todo} key={todo.id} />
         ))}
       </ul>
     </div>
