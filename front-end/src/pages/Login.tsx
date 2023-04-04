@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useMakeEmail from "../hooks/useMakeEmail";
 import useMakePassWord from "../hooks/useMakePassWord";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,12 @@ export default function Login() {
   const { userPassWord, isConfirmPassWord, handlePassWordInput } =
     useMakePassWord();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("userToken")) {
+      navigate("/todo");
+    }
+  });
 
   async function handleSignIn() {
     await fetch("https://www.pre-onboarding-selection-task.shop/auth/signin", {
