@@ -1,6 +1,9 @@
+import React, { useState } from "react";
 import { TodoType } from "../types/todoList.type";
 
 export default function Todo({ todo, todoList }: TodoType) {
+  const [isEditTodoState, setIsEditTodoState] = useState(false);
+  const [editTodo, setEditTodo] = useState("");
   const userToken = localStorage.getItem("userToken");
 
   function confirmDeleteTodo() {
@@ -27,18 +30,48 @@ export default function Todo({ todo, todoList }: TodoType) {
         ));
   }
 
+  function changeTodoInput(event: React.ChangeEvent<HTMLInputElement>) {
+    setEditTodo(event.currentTarget.value);
+  }
+
+  function UpdateTodo() {
+    return (
+      <div>
+        <input type="text" value={editTodo} onChange={changeTodoInput} />
+        <button type="button">제출</button>
+        <button type="button">취소</button>
+      </div>
+    );
+  }
+
   return (
     <li>
       <label>
         <input type="checkbox" checked={todo.isCompleted} />
-        <span>{todo.todo}</span>
-        <button
-          type="button"
-          data-testid="delete-button"
-          onClick={fetchDeleteTodo}
-        >
-          삭제
-        </button>
+        {isEditTodoState ? (
+          <UpdateTodo />
+        ) : (
+          <>
+            <span>{todo.todo}</span>
+            <button
+              type="button"
+              data-testid="modify-button"
+              onClick={() => {
+                setIsEditTodoState(true);
+                setEditTodo(todo.todo);
+              }}
+            >
+              수정
+            </button>
+            <button
+              type="button"
+              data-testid="delete-button"
+              onClick={fetchDeleteTodo}
+            >
+              삭제
+            </button>
+          </>
+        )}
       </label>
     </li>
   );
