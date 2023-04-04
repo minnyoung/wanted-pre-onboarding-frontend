@@ -67,8 +67,10 @@ export default function Todo() {
       <ul>
         {todoList.map((todo) => (
           <li key={todo.id}>
-            <input type="checkbox" checked={todo.isCompleted} />
-            {todo.todo}
+            <label>
+              <input type="checkbox" checked={todo.isCompleted} />
+              <span>{todo.todo}</span>
+            </label>
           </li>
         ))}
       </ul>
