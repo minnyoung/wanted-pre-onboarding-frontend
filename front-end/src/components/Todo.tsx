@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { TodoType } from "../types/todoList.type";
 import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
+import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import UpdateTodo from "./UpdateTodo";
 
 export default function Todo({ todo, fetchReadTodoList }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
     useMakeTodoCheckBox();
+  const { editTodo, setEditTodo } = useMakeEditTodoInput();
 
   const [isEditTodoState, setIsEditTodoState] = useState(false);
   const userToken = localStorage.getItem("userToken");
 
   useEffect(() => {
     setIsCompleted(todo.isCompleted);
+    setEditTodo(todo.todo);
   }, []);
 
   function confirmDeleteTodo() {
@@ -39,7 +42,7 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
         ));
   }
 
-  async function fetchUpdateTodo() {
+  async function fetchUpdateTodo(editTodo: string, isCompleted: boolean) {
     await fetch(
       `https://www.pre-onboarding-selection-task.shop/todos/${todo.id}`,
       {
@@ -56,6 +59,7 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
     )
       .then((response) => {
         if (response.status !== 200) throw new Error(`${response.status}`);
+        window.location.replace("/todo");
       })
       .catch((error) =>
         alert(`TODO를 수정하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
@@ -65,7 +69,11 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
   return (
     <li>
       {isEditTodoState ? (
-        <UpdateTodo setIsEditTodoState={setIsEditTodoState} />
+        <UpdateTodo
+          setIsEditTodoState={setIsEditTodoState}
+          serverTodo={editTodo}
+          fetchUpdateTodo={fetchUpdateTodo}
+        />
       ) : (
         <div>
           <label>

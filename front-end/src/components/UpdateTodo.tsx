@@ -1,17 +1,24 @@
+import React, { useEffect } from "react";
 import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import useMakeTodoCheckBox from "../hooks/useMakeTodoCheckBox";
 
 type UpdateTodoType = {
-  editTodo: string;
+  serverTodo: string | undefined;
   setIsEditTodoState: (state: boolean) => void;
+  fetchUpdateTodo: (todo: string, isCompleted: boolean) => void;
 };
 
 export default function UpdateTodo({
-  editTodo,
+  serverTodo,
   setIsEditTodoState,
+  fetchUpdateTodo,
 }: UpdateTodoType) {
   const { isCompleted, handleTodoCheckBox } = useMakeTodoCheckBox();
-  const { changeTodoInput } = useMakeEditTodoInput();
+  const { editTodo, setEditTodo, changeTodoInput } = useMakeEditTodoInput();
+
+  useEffect(() => {
+    serverTodo && setEditTodo(serverTodo);
+  }, []);
 
   return (
     <div>
@@ -32,7 +39,7 @@ export default function UpdateTodo({
         type="button"
         data-testid="submit-button"
         onClick={() => {
-          //   fetchUpdateTodo();
+          fetchUpdateTodo(editTodo, isCompleted);
           setIsEditTodoState(false);
         }}
       >
