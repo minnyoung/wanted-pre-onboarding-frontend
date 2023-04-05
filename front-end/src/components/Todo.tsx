@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TodoType } from "../types/todoList.type";
 import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
 import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
+import UpdateTodo from "./UpdateTodo";
 
 export default function Todo({ todo, todoList }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
@@ -40,43 +41,6 @@ export default function Todo({ todo, todoList }: TodoType) {
         ));
   }
 
-  function UpdateTodo() {
-    return (
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={isCompleted}
-            onChange={handleTodoCheckBox}
-          />
-          <input
-            type="text"
-            value={editTodo}
-            onChange={changeTodoInput}
-            data-testid="modify-input"
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="submit-button"
-          onClick={() => {
-            fetchUpdateTodo();
-            setIsEditTodoState(false);
-          }}
-        >
-          제출
-        </button>
-        <button
-          type="button"
-          onClick={() => setIsEditTodoState(false)}
-          data-testid="cancel-button"
-        >
-          취소
-        </button>
-      </div>
-    );
-  }
-
   async function fetchUpdateTodo() {
     await fetch(
       `https://www.pre-onboarding-selection-task.shop/todos/${todo.id}`,
@@ -103,7 +67,10 @@ export default function Todo({ todo, todoList }: TodoType) {
   return (
     <li>
       {isEditTodoState ? (
-        <UpdateTodo />
+        <UpdateTodo
+          setIsEditTodoState={setIsEditTodoState}
+          editTodo={editTodo}
+        />
       ) : (
         <div>
           <label>
