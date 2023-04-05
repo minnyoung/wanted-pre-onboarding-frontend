@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { TodoType } from "../types/todoList.type";
 import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
-import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import UpdateTodo from "./UpdateTodo";
 
-export default function Todo({ todo, todoList }: TodoType) {
+export default function Todo({ todo, fetchReadTodoList }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
     useMakeTodoCheckBox();
-  const { editTodo, setEditTodo, changeTodoInput } = useMakeEditTodoInput();
 
   const [isEditTodoState, setIsEditTodoState] = useState(false);
   const userToken = localStorage.getItem("userToken");
 
   useEffect(() => {
     setIsCompleted(todo.isCompleted);
-    setEditTodo(todo.todo);
   }, []);
 
   function confirmDeleteTodo() {
@@ -35,6 +32,7 @@ export default function Todo({ todo, todoList }: TodoType) {
       )
         .then((response) => {
           if (response.status !== 204) throw new Error(`${response.status}`);
+          fetchReadTodoList();
         })
         .catch((error) =>
           alert(`TODO를 삭제하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
@@ -67,10 +65,7 @@ export default function Todo({ todo, todoList }: TodoType) {
   return (
     <li>
       {isEditTodoState ? (
-        <UpdateTodo
-          setIsEditTodoState={setIsEditTodoState}
-          editTodo={editTodo}
-        />
+        <UpdateTodo setIsEditTodoState={setIsEditTodoState} />
       ) : (
         <div>
           <label>

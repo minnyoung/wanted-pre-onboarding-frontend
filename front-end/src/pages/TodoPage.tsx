@@ -59,7 +59,7 @@ export default function TodoPage() {
       >
         추가
       </button>
-      <TodoList todoList={todoList} />
+      <TodoList todoList={todoList} fetchReadTodoList={fetchReadTodoList} />
     </div>
   );
 }
