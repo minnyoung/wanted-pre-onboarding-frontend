@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Todo from "./pages/Todo";
+import TodoPage from "./pages/TodoPage";
 
 function Router() {
   return (
@@ -11,7 +11,7 @@ function Router() {
       <Routes>
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/todo" element={<Todo />} />
+        <Route path="/todo" element={<TodoPage />} />
       </Routes>
     </BrowserRouter>
   );

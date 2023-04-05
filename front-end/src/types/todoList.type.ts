@@ -7,8 +7,11 @@ export type TodoListType = {
 
 export type TodoListPropsType = {
   todoList: TodoListType[];
+  fetchReadTodoList: () => void;
 };
 
 export type TodoType = {
   todo: TodoListType;
+  todoList: TodoListType[];
+  fetchReadTodoList: () => void;
 };

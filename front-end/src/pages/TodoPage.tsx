@@ -3,7 +3,7 @@ import useMakeUserTodo from "../hooks/useMakeUserTodo";
 import TodoList from "../components/TodoList";
 import { TodoListType } from "../types/todoList.type";
 
-export default function Todo() {
+export default function TodoPage() {
   const { userTodo, handleUserTodo } = useMakeUserTodo();
   const [todoList, setTodoList] = useState<TodoListType[]>([]);
   const userToken = localStorage.getItem("userToken");
@@ -59,7 +59,7 @@ export default function Todo() {
       >
         추가
       </button>
-      <TodoList todoList={todoList} />
+      <TodoList todoList={todoList} fetchReadTodoList={fetchReadTodoList} />
     </div>
   );
 }
