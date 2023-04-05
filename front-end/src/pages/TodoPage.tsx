@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useMakeUserTodo from "../hooks/useMakeUserTodo";
 import TodoList from "../components/TodoList";
 import { TodoListType } from "../types/todoList.type";
 
 export default function TodoPage() {
+  const navigate = useNavigate();
   const { userTodo, handleUserTodo } = useMakeUserTodo();
   const [todoList, setTodoList] = useState<TodoListType[]>([]);
   const userToken = localStorage.getItem("userToken");
+
+  useEffect(() => {
+    if (!localStorage.getItem("userToken")) {
+      navigate("/signin");
+    }
+  });
 
   useEffect(fetchReadTodoList, []);
 
