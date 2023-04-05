@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { TodoType } from "../types/todoList.type";
 import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
+import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 
 export default function Todo({ todo, todoList }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
     useMakeTodoCheckBox();
+  const { editTodo, setEditTodo, changeTodoInput } = useMakeEditTodoInput();
 
   const [isEditTodoState, setIsEditTodoState] = useState(false);
-  const [editTodo, setEditTodo] = useState("");
   const userToken = localStorage.getItem("userToken");
 
   useEffect(() => {
@@ -37,10 +38,6 @@ export default function Todo({ todo, todoList }: TodoType) {
         .catch((error) =>
           alert(`TODO를 삭제하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
         ));
-  }
-
-  function changeTodoInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setEditTodo(event.currentTarget.value);
   }
 
   function UpdateTodo() {
