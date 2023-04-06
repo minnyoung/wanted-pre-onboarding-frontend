@@ -5,6 +5,7 @@ import TodoList from "../components/TodoList";
 import { TodoListType } from "../types/todoList.type";
 import TodoHeader from "../components/TodoHeader";
 import TodoInput from "../components/TodoInput";
+import styled from "styled-components";
 
 export default function TodoPage() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function TodoPage() {
   }
 
   return (
-    <div>
+    <S.TodoPageContainer>
       <TodoHeader />
       <TodoInput
         userTodo={userTodo}
@@ -63,6 +64,13 @@ export default function TodoPage() {
         fetchCreateTodoList={fetchCreateTodoList}
       />
       <TodoList todoList={todoList} fetchReadTodoList={fetchReadTodoList} />
-    </div>
+    </S.TodoPageContainer>
   );
 }
+
+const S = {
+  TodoPageContainer: styled.div`
+    width: 100%;
+    height: 700px;
+  `,
+};

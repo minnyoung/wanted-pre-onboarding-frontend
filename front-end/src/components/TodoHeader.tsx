@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 export default function TodoHeader() {
   const navigate = useNavigate();
@@ -7,8 +8,23 @@ export default function TodoHeader() {
     navigate("/");
   }
   return (
-    <div>
-      <span onClick={handleSignOut}>로그아웃</span>
-    </div>
+    <S.TodoHeaderContainer>
+      <button onClick={handleSignOut}>로그아웃</button>
+    </S.TodoHeaderContainer>
   );
 }
+
+const S = {
+  TodoHeaderContainer: styled.div`
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 6px;
+
+    button {
+      font-size: 13px;
+      :hover {
+        text-decoration: underline;
+      }
+    }
+  `,
+};

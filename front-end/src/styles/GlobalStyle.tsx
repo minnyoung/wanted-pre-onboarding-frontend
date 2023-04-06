@@ -7,8 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    max-width: 430px;
-
+    max-width: 350px;
     height: calc(var(--vh, 1vh) * 100);
     font-family: "Gowun Dodum", sans-serif;
     }
@@ -22,6 +21,9 @@ input, button {
 
 input {
     font-family: "Gowun Dodum", sans-serif;
+    ::placeholder{
+        color: #d3d3d3;
+    }
 
 }
 
@@ -37,5 +39,9 @@ a {
 
 ol, ul, li {
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
+
 `;
