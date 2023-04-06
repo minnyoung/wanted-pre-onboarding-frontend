@@ -3,6 +3,7 @@ import { TodoType } from "../types/todoList.type";
 import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
 import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import UpdateTodo from "./UpdateTodo";
+import styled from "styled-components";
 
 export default function Todo({ todo, fetchReadTodoList }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
@@ -75,8 +76,8 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
           fetchUpdateTodo={fetchUpdateTodo}
         />
       ) : (
-        <div>
-          <label>
+        <S.TodoContainer>
+          <S.TodoInputSpanContainer>
             <input
               type="checkbox"
               checked={isCompleted}
@@ -86,25 +87,55 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
               }
             />
             <span>{todo.todo}</span>
-          </label>
-          <button
-            type="button"
-            data-testid="modify-button"
-            onClick={() => {
-              setIsEditTodoState(true);
-            }}
-          >
-            수정
-          </button>
-          <button
-            type="button"
-            data-testid="delete-button"
-            onClick={fetchDeleteTodo}
-          >
-            삭제
-          </button>
-        </div>
+          </S.TodoInputSpanContainer>
+          <S.TodoButtonContainer>
+            <button
+              type="button"
+              data-testid="modify-button"
+              onClick={() => {
+                setIsEditTodoState(true);
+              }}
+              title="수정"
+            >
+              <span className="material-symbols-outlined">edit</span>
+            </button>
+            <button
+              type="button"
+              data-testid="delete-button"
+              onClick={fetchDeleteTodo}
+              title="삭제"
+            >
+              <span className="material-symbols-outlined">delete_forever</span>
+            </button>
+          </S.TodoButtonContainer>
+        </S.TodoContainer>
       )}
     </li>
   );
 }
+
+const S = {
+  TodoContainer: styled.div`
+    margin-bottom: 5px;
+    display: flex;
+  `,
+  TodoInputSpanContainer: styled.label`
+    flex: 1;
+    input {
+      margin-right: 10px;
+    }
+  `,
+  TodoButtonContainer: styled.div`
+    button {
+      span {
+        width: 80%;
+        font-size: 20px;
+        color: gray;
+        :hover {
+          text-decoration: underline;
+          color: black;
+        }
+      }
+    }
+  `,
+};
