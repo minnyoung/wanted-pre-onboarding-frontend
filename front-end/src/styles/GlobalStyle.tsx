@@ -13,6 +13,13 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "Gowun Dodum", sans-serif;
     }
 
+input, button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: inherit;
+    }
+
 input {
     font-family: "Gowun Dodum", sans-serif;
 
@@ -21,6 +28,11 @@ input {
 button {
     font-family: "Gowun Dodum", sans-serif;
     cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 ol, ul, li {
