@@ -43,12 +43,14 @@ export default function Login() {
       <Link to="/signup">회원가입</Link>
       <div>
         <input
+          placeholder="이메일을 입력해주세요."
           data-testid="email-input"
           type="email"
           value={userEmail}
           onChange={handleEmailInput}
         />
         <input
+          placeholder="비밀번호를 입력해주세요."
           data-testid="password-input"
           type="password"
           value={userPassWord}

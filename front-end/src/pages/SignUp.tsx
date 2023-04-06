@@ -42,12 +42,14 @@ export default function SignUp() {
       <Link to="/signin">로그인</Link>
       <div>
         <input
+          placeholder="이메일을 입력해주세요."
           data-testid="email-input"
           type="email"
           value={userEmail}
           onChange={handleEmailInput}
         />
         <input
+          placeholder="8자리 이상 입력해주세요."
           data-testid="password-input"
           type="password"
           value={userPassWord}

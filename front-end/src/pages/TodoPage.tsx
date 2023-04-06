@@ -57,6 +57,7 @@ export default function TodoPage() {
       <TodoHeader />
       <span>TODO</span>
       <input
+        placeholder="할 일을 입력하세요!"
         type="text"
         data-testid="new-todo-input"
         value={userTodo}
