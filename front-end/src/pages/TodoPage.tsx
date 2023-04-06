@@ -4,10 +4,11 @@ import useMakeUserTodo from "../hooks/useMakeUserTodo";
 import TodoList from "../components/TodoList";
 import { TodoListType } from "../types/todoList.type";
 import TodoHeader from "../components/TodoHeader";
+import TodoInput from "../components/TodoInput";
 
 export default function TodoPage() {
   const navigate = useNavigate();
-  const { userTodo, handleUserTodo } = useMakeUserTodo();
+  const { userTodo, setUserTodo, handleUserTodo } = useMakeUserTodo();
   const [todoList, setTodoList] = useState<TodoListType[]>([]);
   const userToken = localStorage.getItem("userToken");
 
@@ -45,6 +46,7 @@ export default function TodoPage() {
     })
       .then((response) => {
         if (response.status !== 201) throw new Error(`${response.status}`);
+        setUserTodo("");
         fetchReadTodoList();
       })
       .catch((error) =>
@@ -55,21 +57,11 @@ export default function TodoPage() {
   return (
     <div>
       <TodoHeader />
-      <span>TODO</span>
-      <input
-        placeholder="할 일을 입력하세요!"
-        type="text"
-        data-testid="new-todo-input"
-        value={userTodo}
-        onChange={handleUserTodo}
+      <TodoInput
+        userTodo={userTodo}
+        handleUserTodo={handleUserTodo}
+        fetchCreateTodoList={fetchCreateTodoList}
       />
-      <button
-        type="button"
-        data-testid="new-todo-add-button"
-        onClick={fetchCreateTodoList}
-      >
-        추가
-      </button>
       <TodoList todoList={todoList} fetchReadTodoList={fetchReadTodoList} />
     </div>
   );
