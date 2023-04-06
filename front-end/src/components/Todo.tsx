@@ -81,6 +81,9 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
               type="checkbox"
               checked={isCompleted}
               onChange={handleTodoCheckBox}
+              onClick={(event) =>
+                fetchUpdateTodo(editTodo, event.currentTarget.checked)
+              }
             />
             <span>{todo.todo}</span>
           </label>
