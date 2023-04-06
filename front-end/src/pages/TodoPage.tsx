@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useMakeUserTodo from "../hooks/useMakeUserTodo";
 import TodoList from "../components/TodoList";
 import { TodoListType } from "../types/todoList.type";
+import TodoHeader from "../components/TodoHeader";
 
 export default function TodoPage() {
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ export default function TodoPage() {
 
   return (
     <div>
+      <TodoHeader />
       <span>TODO</span>
       <input
         type="text"
