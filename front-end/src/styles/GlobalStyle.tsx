@@ -22,6 +22,7 @@ input, button {
 input {
     font-family: "Gowun Dodum", sans-serif;
     ::placeholder{
+        font-size: 16px;
         color: #d3d3d3;
     }
 

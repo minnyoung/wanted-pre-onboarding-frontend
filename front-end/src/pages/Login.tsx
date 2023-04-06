@@ -85,15 +85,16 @@ const S = {
     align-items: center;
   `,
   LoginLogoSpan: styled.span`
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     font-size: 30px;
     font-weight: 800;
   `,
   LoginInputContainer: styled.div`
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    width: 220px;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 280px;
 
     span {
       width: 55px;
@@ -102,22 +103,25 @@ const S = {
     }
 
     input {
-      width: 140px;
-      font-size: 14px;
+      width: 180px;
+      font-size: 18px;
       font-weight: 600;
+      line-height: 1.5;
+      border-bottom: 1px solid gray;
     }
   `,
-
   LoginButton: styled.button`
-    margin: 10px 0;
+    margin: 20px 0;
     width: 100%;
     height: 35px;
     border: 1px solid gray;
     border-radius: 10px;
-    :hover {
-      background-color: #f0f0f0;
+    :disabled {
+      background-color: #b8b8b8;
+      cursor: not-allowed;
       transition: 0.1s ease-in-out;
     }
+    transition: 0.1s ease-in-out;
   `,
   LoginDescContainer: styled.div`
     display: flex;
