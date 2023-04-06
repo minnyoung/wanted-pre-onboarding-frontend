@@ -7,5 +7,5 @@ export default function useMakeUserTodo() {
     setUserTodo(event.currentTarget.value);
   }
 
-  return { userTodo, handleUserTodo };
+  return { userTodo, setUserTodo, handleUserTodo };
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import useMakeEmail from "../hooks/useMakeEmail";
 import useMakePassWord from "../hooks/useMakePassWord";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const { userEmail, isConfirmEmail, handleEmailInput } = useMakeEmail();
@@ -38,14 +38,18 @@ export default function SignUp() {
   return (
     <div>
       <span>회원가입</span>
+      <span>계정이 있으신가요?</span>
+      <Link to="/signin">로그인</Link>
       <div>
         <input
+          placeholder="이메일을 입력해주세요."
           data-testid="email-input"
           type="email"
           value={userEmail}
           onChange={handleEmailInput}
         />
         <input
+          placeholder="8자리 이상 입력해주세요."
           data-testid="password-input"
           type="password"
           value={userPassWord}
