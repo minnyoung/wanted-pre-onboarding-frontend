@@ -70,7 +70,11 @@ export default function TodoPage() {
 
 const S = {
   TodoPageContainer: styled.div`
+    padding: 15px 25px;
     width: 100%;
     height: 700px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
   `,
 };
