@@ -72,6 +72,7 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
       {isEditTodoState ? (
         <UpdateTodo
           setIsEditTodoState={setIsEditTodoState}
+          serverIsCompleted={isCompleted}
           serverTodo={editTodo}
           fetchUpdateTodo={fetchUpdateTodo}
         />

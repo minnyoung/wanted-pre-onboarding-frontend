@@ -5,20 +5,24 @@ import styled from "styled-components";
 
 type UpdateTodoType = {
   serverTodo: string | undefined;
+  serverIsCompleted: boolean;
   setIsEditTodoState: (state: boolean) => void;
   fetchUpdateTodo: (todo: string, isCompleted: boolean) => void;
 };
 
 export default function UpdateTodo({
   serverTodo,
+  serverIsCompleted,
   setIsEditTodoState,
   fetchUpdateTodo,
 }: UpdateTodoType) {
-  const { isCompleted, handleTodoCheckBox } = useMakeTodoCheckBox();
+  const { isCompleted, setIsCompleted, handleTodoCheckBox } =
+    useMakeTodoCheckBox();
   const { editTodo, setEditTodo, changeTodoInput } = useMakeEditTodoInput();
 
   useEffect(() => {
     serverTodo && setEditTodo(serverTodo);
+    setIsCompleted(serverIsCompleted);
   }, []);
 
   return (
