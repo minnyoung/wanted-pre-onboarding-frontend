@@ -60,7 +60,7 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
     )
       .then((response) => {
         if (response.status !== 200) throw new Error(`${response.status}`);
-        window.location.replace("/todo");
+        window.location.reload();
       })
       .catch((error) =>
         alert(`TODO를 수정하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
