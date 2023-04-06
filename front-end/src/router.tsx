@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import TodoPage from "./pages/TodoPage";
 import Main from "./pages/Main";
+import NotFound from "./pages/NotFound";
 
 function Router() {
   return (
@@ -14,6 +15,8 @@ function Router() {
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/todo" element={<TodoPage />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
