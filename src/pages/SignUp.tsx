@@ -72,6 +72,9 @@ export default function SignUp() {
           <span>계정이 있으신가요?</span>
           <Link to="/signin">로그인</Link>
         </S.SignupDescContainer>
+        <S.SignupDescContainer>
+          <Link to="/">홈으로가기</Link>
+        </S.SignupDescContainer>
       </div>
     </S.SignupContainer>
   );
@@ -126,6 +129,7 @@ const S = {
   SignupDescContainer: styled.div`
     display: flex;
     justify-content: center;
+    margin-bottom: 5px;
     font-size: 13px;
     gap: 5px;
     span {

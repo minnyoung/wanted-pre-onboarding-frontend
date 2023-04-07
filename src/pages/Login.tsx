@@ -73,6 +73,9 @@ export default function Login() {
           <span>계정이 없으신가요?</span>
           <Link to="/signup">회원가입</Link>
         </S.LoginDescContainer>
+        <S.LoginDescContainer>
+          <Link to="/">홈으로가기</Link>
+        </S.LoginDescContainer>
       </div>
     </S.LoginContainer>
   );
@@ -126,6 +129,7 @@ const S = {
   LoginDescContainer: styled.div`
     display: flex;
     justify-content: center;
+    margin-bottom: 5px;
     font-size: 13px;
     gap: 5px;
     span {
