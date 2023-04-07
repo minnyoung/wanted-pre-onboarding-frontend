@@ -1,6 +1,33 @@
 # 원티드 프리온보딩 프론트엔드 - 선발 과제
 
-## 프로젝트의 실행 방법
+<div align="center">
+
+![image](https://user-images.githubusercontent.com/118191378/230625102-68fc56b3-1809-44bc-be9b-97dc223e6ee1.png)
+
+원티드 프리온보딩 4월 프론트엔드 인턴십 사전과제입니다.
+
+배포 링크 : https://wanted-internship-todo.vercel.app/
+
+<div> 
+  <img src="https://img.shields.io/badge/React-18.2.0-61DAFB?logo=React"> 
+  <img src="https://img.shields.io/badge/TypeScript-4.9.5-3178C6?logo=typescript"> 
+  <img src="https://img.shields.io/badge/styled components-5.3.9-ff69b4?logo=styled-components"> 
+</div>
+</div>
+
+<br /><br />
+## 목차
+- [프로젝트 실행 방법](#프로젝트-실행-방법)
+- [데모 영상](#데모-영상)
+    - [회원가입](#회원가입)
+    - [로그인](#로그인)
+    - [TODO CRUD](#todo-crud)
+    - [Not Found](#not-found)
+- [구현 요구 사항 목록](#구현-요구-사항-목록)
+  - [로그인 / 회원가입](#1-로그인--회원가입)
+  - [TODO LIST](#2-todo-list)
+<br /><br />
+## 프로젝트 실행 방법
 
 ```
 git clone 후
@@ -11,13 +38,18 @@ npm start
 
 ## 데모 영상
 
-배포 링크 : https://wanted-internship-todo.vercel.app/
+### 회원가입
+![회원가입](https://user-images.githubusercontent.com/118191378/230623672-517bab56-fd8e-4abf-be86-5112a43e5937.gif)
 
-### 구현화면
+### 로그인
+![녹화 로그인2](https://user-images.githubusercontent.com/118191378/230623888-5acfa44f-e4e8-455a-8eb7-3cacbbfe8574.gif)
 
-**- 로그인**
-**- 회원가입**
-**- TODO CRUD**
+### TODO CRUD
+![녹화 crud2](https://user-images.githubusercontent.com/118191378/230624004-b455b43f-3eef-4a06-a265-2ce437422cc2.gif)
+
+### Not Found
+![녹화 4042](https://user-images.githubusercontent.com/118191378/230624085-da5d01fa-a50b-4000-a766-218ec4217959.gif)
+
 
 ## 구현 요구 사항 목록
 
