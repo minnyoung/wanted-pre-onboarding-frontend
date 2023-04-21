@@ -11,11 +11,16 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
   const { editTodo, setEditTodo } = useMakeEditTodoInput();
 
   const [isEditTodoState, setIsEditTodoState] = useState(false);
+  const [todoContents, setTodoContents] = useState("");
+
   const userToken = localStorage.getItem("userToken");
 
   useEffect(() => {
     setIsCompleted(todo.isCompleted);
     setEditTodo(todo.todo);
+    setTodoContents(
+      todo.todo.length > 16 ? `${todo.todo.slice(0, 16)}...` : todo.todo
+    );
   }, []);
 
   function confirmDeleteTodo() {
@@ -87,7 +92,18 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
                 fetchUpdateTodo(editTodo, event.currentTarget.checked)
               }
             />
-            <span>{todo.todo}</span>
+            <span
+              onMouseEnter={() => setTodoContents(todo.todo)}
+              onMouseLeave={() =>
+                setTodoContents(
+                  todo.todo.length > 16
+                    ? `${todo.todo.slice(0, 16)}...`
+                    : todo.todo
+                )
+              }
+            >
+              {todoContents}
+            </span>
           </S.TodoInputSpanContainer>
           <S.TodoButtonContainer>
             <button
