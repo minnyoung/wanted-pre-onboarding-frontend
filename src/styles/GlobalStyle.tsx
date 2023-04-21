@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    max-width: 380px;
+    max-width: 400px;
     height: calc(var(--vh, 1vh) * 100);
     font-family: "Gowun Dodum", sans-serif;
     }

@@ -37,7 +37,7 @@ const S = {
     justify-content: space-between;
     margin: 15px 0;
     input {
-      width: 250px;
+      width: 260px;
       font-size: 17px;
       line-height: 2;
       border-bottom: 1px solid gray;
