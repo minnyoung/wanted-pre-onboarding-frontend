@@ -4,11 +4,14 @@ import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
 import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import UpdateTodo from "./UpdateTodo";
 import styled from "styled-components";
+import ConfirmModal from "./ConfirmModal";
+import useModalVisibleState from "../hooks/useModalVisibleState";
 
 export default function Todo({ todo, fetchReadTodoList }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
     useMakeTodoCheckBox();
   const { editTodo, setEditTodo } = useMakeEditTodoInput();
+  const { isModalVisible, setIsModalVisible } = useModalVisibleState();
 
   const [isEditTodoState, setIsEditTodoState] = useState(false);
   const [todoContents, setTodoContents] = useState("");
@@ -119,11 +122,19 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
             <button
               type="button"
               data-testid="delete-button"
-              onClick={fetchDeleteTodo}
+              // onClick={fetchDeleteTodo}
+              onClick={() => setIsModalVisible(true)}
               title="삭제"
             >
               <span className="material-symbols-outlined">delete_forever</span>
             </button>
+            {isModalVisible && (
+              <ConfirmModal
+                todoId={todo.id}
+                userToken={userToken}
+                fetchReadTodoList={fetchReadTodoList}
+              />
+            )}
           </S.TodoButtonContainer>
         </S.TodoContainer>
       )}
