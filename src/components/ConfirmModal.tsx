@@ -1,20 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import useModalVisibleState from "../hooks/useModalVisibleState";
 
 type ConfirmModalType = {
   todoId: number;
   userToken: string | null;
+  setIsModalVisible: (isVisible: boolean) => void;
   fetchReadTodoList: () => void;
 };
 
 export default function ConfirmModal({
   todoId,
   userToken,
+  setIsModalVisible,
   fetchReadTodoList,
 }: ConfirmModalType) {
-  const { isModalVisible, changeIsModalVisible } = useModalVisibleState();
-
   async function fetchDeleteTodo() {
     await fetch(
       `https://www.pre-onboarding-selection-task.shop/todos/${todoId}`,
@@ -38,7 +37,10 @@ export default function ConfirmModal({
       <S.Modal>
         <S.ModalText>삭제하시겠습니까?</S.ModalText>
         <S.ModalButtonContainer>
-          <S.ModalButton contents="cancle" onClick={changeIsModalVisible}>
+          <S.ModalButton
+            contents="cancle"
+            onClick={() => setIsModalVisible(false)}
+          >
             취소
           </S.ModalButton>
           <S.ModalButton contents="" onClick={fetchDeleteTodo}>
@@ -83,18 +85,17 @@ const S = {
   ModalButton: styled.button<{ contents: string }>`
     padding: 8px 15px;
     font-size: 13px;
-    border: 1px solid
-      ${({ contents }) => (contents === "cancle" ? "gray" : "#ff7474")};
-    color: ${({ contents }) => (contents === "cancle" ? "" : "#ff5252")};
+    background-color: ${({ contents }) =>
+      contents === "cancle" ? "" : "#ed4646"};
+    color: ${({ contents }) => (contents === "cancle" ? "" : "#f6f6f6")};
     font-weight: ${({ contents }) => (contents === "cancle" ? "" : "600")};
-
     border-radius: 15px;
     transition: 0.1s ease-in-out;
     :hover {
       transition: 0.1s ease-in-out;
       color: #ffffff;
       background-color: ${({ contents }) =>
-        contents === "cancle" ? "gray" : "#ff5252"};
+        contents === "cancle" ? "gray" : "#b03838"};
     }
   `,
 };
