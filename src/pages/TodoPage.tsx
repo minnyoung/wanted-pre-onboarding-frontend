@@ -45,14 +45,18 @@ export default function TodoPage() {
         todo: `${userTodo}`,
       }),
     })
-      .then((response) => {
-        if (response.status !== 201) throw new Error(`${response.status}`);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.statusCode === 400) throw new Error("TODO를 입력해주세요.");
+        else if (data.statusCode)
+          throw new Error(
+            `TODO를 등록하던 중 에러가 발생했습니다. \n에러코드 ${data.statusCode}`
+          );
         setUserTodo("");
         fetchReadTodoList();
       })
-      .catch((error) =>
-        alert(`TODO를 등록하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
-      );
+      .catch((error) => alert(error));
   }
 
   return (

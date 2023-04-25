@@ -32,9 +32,13 @@ export default function Login() {
           navigate("/todo");
         } else throw data.message;
       })
-      .catch((error) =>
-        alert(`로그인 중 에러가 발생했습니다. \n에러내용: ${error}`)
-      );
+      .catch((error) => {
+        if (error === "Unauthorized") {
+          alert("이메일 혹은 비밀번호가 틀렸습니다. 다시 입력해주세요.");
+        } else {
+          alert(`${error}`);
+        }
+      });
   }
 
   return (

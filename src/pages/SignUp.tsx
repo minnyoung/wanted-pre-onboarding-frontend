@@ -25,15 +25,14 @@ export default function SignUp() {
       },
       body: JSON.stringify({ email: userEmail, password: userPassWord }),
     })
+      .then((response) => response.json())
       .then((data) => {
-        if (data.status === 201) {
+        if (data.statusCode === 201) {
           alert("회원가입이 완료되었습니다.");
           navigate("/signin");
-        } else throw data.status;
+        } else throw data.message;
       })
-      .catch((error) =>
-        alert(`회원가입 중 에러가 발생했습니다. \n에러코드 : ${error}`)
-      );
+      .catch((error) => alert(`${error}`));
   }
 
   return (

@@ -40,8 +40,9 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
         }),
       }
     )
-      .then((response) => {
-        if (response.status !== 200) throw new Error(`${response.status}`);
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.statusCode) throw new Error(`${data.statusCode}`);
         window.location.reload();
       })
       .catch((error) =>
