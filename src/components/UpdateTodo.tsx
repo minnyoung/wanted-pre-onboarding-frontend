@@ -6,19 +6,27 @@ import styled from "styled-components";
 type UpdateTodoType = {
   serverTodo: string | undefined;
   serverIsCompleted: boolean;
+  todoId: number;
   setIsEditTodoState: (state: boolean) => void;
-  fetchUpdateTodo: (todo: string, isCompleted: boolean) => void;
+  onUpdateTodo: (
+    userToken: string | null,
+    id: number,
+    editTodo: string,
+    isCompleted: boolean
+  ) => Promise<void>;
 };
 
 export default function UpdateTodo({
   serverTodo,
   serverIsCompleted,
+  todoId,
   setIsEditTodoState,
-  fetchUpdateTodo,
+  onUpdateTodo,
 }: UpdateTodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
     useMakeTodoCheckBox();
   const { editTodo, setEditTodo, changeTodoInput } = useMakeEditTodoInput();
+  const userToken = localStorage.getItem("userToken");
 
   useEffect(() => {
     serverTodo && setEditTodo(serverTodo);
@@ -46,8 +54,9 @@ export default function UpdateTodo({
           type="button"
           data-testid="submit-button"
           onClick={() => {
-            fetchUpdateTodo(editTodo, isCompleted);
+            onUpdateTodo(userToken, todoId, editTodo, isCompleted);
             setIsEditTodoState(false);
+            window.location.reload();
           }}
           title="제출"
         >

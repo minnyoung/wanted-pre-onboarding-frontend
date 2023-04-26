@@ -1,16 +1,14 @@
 import styled from "styled-components";
+import useMakeUserTodo from "../hooks/useMakeUserTodo";
 
 type TodoInputType = {
-  userTodo: string;
-  handleUserTodo: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  fetchCreateTodoList: () => void;
+  onCreateTodo: (userToken: string | null, userTodo: string) => void;
 };
 
-export default function TodoInput({
-  userTodo,
-  handleUserTodo,
-  fetchCreateTodoList,
-}: TodoInputType) {
+export default function TodoInput({ onCreateTodo }: TodoInputType) {
+  const userToken = localStorage.getItem("userToken");
+  const { userTodo, handleUserTodo } = useMakeUserTodo();
+
   return (
     <S.TodoInputContainer>
       <input
@@ -23,7 +21,7 @@ export default function TodoInput({
       <button
         type="button"
         data-testid="new-todo-add-button"
-        onClick={fetchCreateTodoList}
+        onClick={() => onCreateTodo(userToken, userTodo)}
       >
         추가
       </button>

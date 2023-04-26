@@ -5,33 +5,15 @@ type ConfirmModalType = {
   todoId: number;
   userToken: string | null;
   setIsModalVisible: (isVisible: boolean) => void;
-  fetchReadTodoList: () => void;
+  onDeleteTodo: (userToken: string | null, todoId: number) => Promise<void>;
 };
 
 export default function ConfirmModal({
   todoId,
   userToken,
   setIsModalVisible,
-  fetchReadTodoList,
+  onDeleteTodo,
 }: ConfirmModalType) {
-  async function fetchDeleteTodo() {
-    await fetch(
-      `https://www.pre-onboarding-selection-task.shop/todos/${todoId}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
-      .then((response) => {
-        if (response.status !== 204) throw new Error(`${response.status}`);
-        fetchReadTodoList();
-      })
-      .catch((error) =>
-        alert(`TODO를 삭제하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
-      );
-  }
   return (
     <S.ModalContainer>
       <S.Modal>
@@ -43,7 +25,10 @@ export default function ConfirmModal({
           >
             취소
           </S.ModalButton>
-          <S.ModalButton contents="" onClick={fetchDeleteTodo}>
+          <S.ModalButton
+            contents=""
+            onClick={() => onDeleteTodo(userToken, todoId)}
+          >
             삭제
           </S.ModalButton>
         </S.ModalButtonContainer>

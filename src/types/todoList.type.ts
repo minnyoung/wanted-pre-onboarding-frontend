@@ -7,11 +7,22 @@ export type TodoListType = {
 
 export type TodoListPropsType = {
   todoList: TodoListType[];
-  fetchReadTodoList: () => void;
+  onUpdateTodo: (
+    userToken: string | null,
+    id: number,
+    editTodo: string,
+    isCompleted: boolean
+  ) => Promise<void>;
+  onDeleteTodo: (userToken: string | null, todoId: number) => Promise<void>;
 };
 
 export type TodoType = {
   todo: TodoListType;
-  todoList: TodoListType[];
-  fetchReadTodoList: () => void;
+  onUpdateTodo: (
+    userToken: string | null,
+    id: number,
+    editTodo: string,
+    isCompleted: boolean
+  ) => Promise<void>;
+  onDeleteTodo: (userToken: string | null, todoId: number) => Promise<void>;
 };

@@ -6,7 +6,7 @@ import UpdateTodo from "./UpdateTodo";
 import styled from "styled-components";
 import ConfirmModal from "./ConfirmModal";
 
-export default function Todo({ todo, fetchReadTodoList }: TodoType) {
+export default function Todo({ todo, onDeleteTodo, onUpdateTodo }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
     useMakeTodoCheckBox();
   const { editTodo, setEditTodo } = useMakeEditTodoInput();
@@ -25,30 +25,6 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
     );
   }, []);
 
-  async function fetchUpdateTodo(editTodo: string, isCompleted: boolean) {
-    await fetch(
-      `https://www.pre-onboarding-selection-task.shop/todos/${todo.id}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          todo: `${editTodo}`,
-          isCompleted: isCompleted,
-        }),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.statusCode) throw new Error(`${data.statusCode}`);
-        window.location.reload();
-      })
-      .catch((error) =>
-        alert(`TODO를 수정하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
-      );
-  }
   return (
     <li>
       {isEditTodoState ? (
@@ -56,7 +32,8 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
           setIsEditTodoState={setIsEditTodoState}
           serverIsCompleted={isCompleted}
           serverTodo={editTodo}
-          fetchUpdateTodo={fetchUpdateTodo}
+          todoId={todo.id}
+          onUpdateTodo={onUpdateTodo}
         />
       ) : (
         <S.TodoContainer>
@@ -66,7 +43,12 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
               checked={isCompleted}
               onChange={handleTodoCheckBox}
               onClick={(event) =>
-                fetchUpdateTodo(editTodo, event.currentTarget.checked)
+                onUpdateTodo(
+                  userToken,
+                  todo.id,
+                  editTodo,
+                  event.currentTarget.checked
+                )
               }
             />
             <span
@@ -105,8 +87,8 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
               <ConfirmModal
                 todoId={todo.id}
                 userToken={userToken}
-                fetchReadTodoList={fetchReadTodoList}
                 setIsModalVisible={setIsModalVisible}
+                onDeleteTodo={onDeleteTodo}
               />
             )}
           </S.TodoButtonContainer>

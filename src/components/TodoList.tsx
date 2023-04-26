@@ -4,17 +4,19 @@ import styled from "styled-components";
 
 export default function TodoList({
   todoList,
-  fetchReadTodoList,
+  onDeleteTodo,
+  onUpdateTodo,
 }: TodoListPropsType) {
+  console.log(todoList);
   return (
     <S.TodoListContainer className="TodoList">
       <ul>
         {todoList.map((todo: TodoListType) => (
           <Todo
             todo={todo}
-            todoList={todoList}
             key={todo.id}
-            fetchReadTodoList={fetchReadTodoList}
+            onDeleteTodo={onDeleteTodo}
+            onUpdateTodo={onUpdateTodo}
           />
         ))}
       </ul>

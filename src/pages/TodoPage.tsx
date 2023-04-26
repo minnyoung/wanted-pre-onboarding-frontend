@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useMakeUserTodo from "../hooks/useMakeUserTodo";
 import TodoList from "../components/TodoList";
 import { TodoListType } from "../types/todoList.type";
 import TodoHeader from "../components/TodoHeader";
 import TodoInput from "../components/TodoInput";
 import styled from "styled-components";
 import SnackBar from "../components/SnackBar";
+import {
+  fetchCreateTodo,
+  fetchDeleteTodo,
+  fetchReadTodoList,
+  fetchUpdateTodo,
+} from "../apis/Todo";
 
 export default function TodoPage() {
   const navigate = useNavigate();
-  const { userTodo, setUserTodo, handleUserTodo } = useMakeUserTodo();
   const [todoList, setTodoList] = useState<TodoListType[]>([]);
   const [isSnackBarShowing, setIsSnackBarShowing] = useState(false);
   const [snackBarMessage, setsnackBarMessage] = useState("");
@@ -23,48 +27,32 @@ export default function TodoPage() {
     }
   });
 
-  useEffect(fetchReadTodoList, []);
+  useEffect(() => {
+    onReadTodoList();
+  }, []);
 
-  function fetchReadTodoList() {
-    fetch("https://www.pre-onboarding-selection-task.shop/todos", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setTodoList(data);
-      });
-  }
+  const onReadTodoList = async () => {
+    const fetchedTodos = await fetchReadTodoList(userToken);
+    setTodoList(fetchedTodos);
+  };
 
-  async function fetchCreateTodoList() {
-    await fetch("https://www.pre-onboarding-selection-task.shop/todos", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        todo: `${userTodo}`,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.statusCode === 400) {
-          setsnackBarMessage("TODO를 입력해주세요.");
-          throw new Error(data.statusCode);
-        } else if (data.statusCode)
-          throw new Error(
-            `TODO를 등록하던 중 에러가 발생했습니다. \n에러코드 ${data.statusCode}`
-          );
-        setUserTodo("");
-        fetchReadTodoList();
-      })
-      .catch((error) => {
-        setIsSnackBarShowing(true);
-      });
-  }
+  const onCreateTodo = async (userToken: string | null, todo: string) => {
+    await fetchCreateTodo(userToken, todo);
+    onReadTodoList();
+  };
+  const onDeleteTodo = async (userToken: string | null, todoId: number) => {
+    await fetchDeleteTodo(userToken, todoId);
+    onReadTodoList();
+  };
+  const onUpdateTodo = async (
+    userToken: string | null,
+    id: number,
+    editTodo: string,
+    isCompleted: boolean
+  ) => {
+    await fetchUpdateTodo(userToken, id, editTodo, isCompleted);
+    onReadTodoList();
+  };
 
   return (
     <>
@@ -76,12 +64,12 @@ export default function TodoPage() {
       )}
       <S.TodoPageContainer>
         <TodoHeader />
-        <TodoInput
-          userTodo={userTodo}
-          handleUserTodo={handleUserTodo}
-          fetchCreateTodoList={fetchCreateTodoList}
+        <TodoInput onCreateTodo={onCreateTodo} />
+        <TodoList
+          todoList={todoList}
+          onDeleteTodo={onDeleteTodo}
+          onUpdateTodo={onUpdateTodo}
         />
-        <TodoList todoList={todoList} fetchReadTodoList={fetchReadTodoList} />
       </S.TodoPageContainer>
     </>
   );
