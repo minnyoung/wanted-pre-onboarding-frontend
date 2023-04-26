@@ -6,11 +6,15 @@ import { TodoListType } from "../types/todoList.type";
 import TodoHeader from "../components/TodoHeader";
 import TodoInput from "../components/TodoInput";
 import styled from "styled-components";
+import SnackBar from "../components/SnackBar";
 
 export default function TodoPage() {
   const navigate = useNavigate();
   const { userTodo, setUserTodo, handleUserTodo } = useMakeUserTodo();
   const [todoList, setTodoList] = useState<TodoListType[]>([]);
+  const [isSnackBarShowing, setIsSnackBarShowing] = useState(false);
+  const [snackBarMessage, setsnackBarMessage] = useState("");
+
   const userToken = localStorage.getItem("userToken");
 
   useEffect(() => {
@@ -47,28 +51,39 @@ export default function TodoPage() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        if (data.statusCode === 400) throw new Error("TODO를 입력해주세요.");
-        else if (data.statusCode)
+        if (data.statusCode === 400) {
+          setsnackBarMessage("TODO를 입력해주세요.");
+          throw new Error(data.statusCode);
+        } else if (data.statusCode)
           throw new Error(
             `TODO를 등록하던 중 에러가 발생했습니다. \n에러코드 ${data.statusCode}`
           );
         setUserTodo("");
         fetchReadTodoList();
       })
-      .catch((error) => alert(error));
+      .catch((error) => {
+        setIsSnackBarShowing(true);
+      });
   }
 
   return (
-    <S.TodoPageContainer>
-      <TodoHeader />
-      <TodoInput
-        userTodo={userTodo}
-        handleUserTodo={handleUserTodo}
-        fetchCreateTodoList={fetchCreateTodoList}
-      />
-      <TodoList todoList={todoList} fetchReadTodoList={fetchReadTodoList} />
-    </S.TodoPageContainer>
+    <>
+      {isSnackBarShowing && (
+        <SnackBar
+          message={snackBarMessage}
+          setIsSnackBarShowing={setIsSnackBarShowing}
+        />
+      )}
+      <S.TodoPageContainer>
+        <TodoHeader />
+        <TodoInput
+          userTodo={userTodo}
+          handleUserTodo={handleUserTodo}
+          fetchCreateTodoList={fetchCreateTodoList}
+        />
+        <TodoList todoList={todoList} fetchReadTodoList={fetchReadTodoList} />
+      </S.TodoPageContainer>
+    </>
   );
 }
 
