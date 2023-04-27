@@ -1,4 +1,4 @@
-const BASE_URL = "https://www.pre-onboarding-selection-task.shop";
+import { BASE_URL } from "./const";
 
 // todo create
 export async function fetchCreateTodo(

@@ -3,6 +3,7 @@ import useMakeEmail from "../hooks/useMakeEmail";
 import useMakePassWord from "../hooks/useMakePassWord";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { handleSignUp } from "../apis/Auth";
 
 export default function SignUp() {
   const { userEmail, isConfirmEmail, handleEmailInput } = useMakeEmail();
@@ -16,24 +17,6 @@ export default function SignUp() {
       navigate("/todo");
     }
   });
-
-  async function handleSignUp() {
-    await fetch("https://www.pre-onboarding-selection-task.shop/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: userEmail, password: userPassWord }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.statusCode === 201) {
-          alert("회원가입이 완료되었습니다.");
-          navigate("/signin");
-        } else throw data.message;
-      })
-      .catch((error) => alert(`${error}`));
-  }
 
   return (
     <S.SignupContainer>
@@ -63,7 +46,7 @@ export default function SignUp() {
           data-testid="signup-button"
           type="button"
           disabled={!(isConfirmEmail && isConfirmPassWord)}
-          onClick={handleSignUp}
+          onClick={() => handleSignUp(userEmail, userPassWord, navigate)}
         >
           회원가입
         </S.SignupButton>

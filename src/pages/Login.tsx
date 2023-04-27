@@ -3,6 +3,7 @@ import useMakeEmail from "../hooks/useMakeEmail";
 import useMakePassWord from "../hooks/useMakePassWord";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { handleSignIn } from "../apis/Auth";
 
 export default function Login() {
   const { userEmail, isConfirmEmail, handleEmailInput } = useMakeEmail();
@@ -15,31 +16,6 @@ export default function Login() {
       navigate("/todo");
     }
   });
-
-  async function handleSignIn() {
-    await fetch("https://www.pre-onboarding-selection-task.shop/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: userEmail, password: userPassWord }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.access_token) {
-          localStorage.setItem("userToken", data.access_token);
-          alert("로그인되었습니다.");
-          navigate("/todo");
-        } else throw data.message;
-      })
-      .catch((error) => {
-        if (error === "Unauthorized") {
-          alert("이메일 혹은 비밀번호가 틀렸습니다. 다시 입력해주세요.");
-        } else {
-          alert(`${error}`);
-        }
-      });
-  }
 
   return (
     <S.LoginContainer>
@@ -69,7 +45,7 @@ export default function Login() {
           data-testid="signin-button"
           type="button"
           disabled={!(isConfirmEmail && isConfirmPassWord)}
-          onClick={handleSignIn}
+          onClick={() => handleSignIn(userEmail, userPassWord, navigate)}
         >
           로그인
         </S.LoginButton>
