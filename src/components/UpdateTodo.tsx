@@ -56,7 +56,6 @@ export default function UpdateTodo({
           onClick={() => {
             onUpdateTodo(userToken, todoId, editTodo, isCompleted);
             setIsEditTodoState(false);
-            window.location.reload();
           }}
           title="제출"
         >

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TodoList from "../components/TodoList";
 import { TodoListType } from "../types/todoList.type";
@@ -12,12 +12,12 @@ import {
   fetchReadTodoList,
   fetchUpdateTodo,
 } from "../apis/Todo";
+import { GlobalContext } from "../provider/GlobalProvider";
 
 export default function TodoPage() {
   const navigate = useNavigate();
   const [todoList, setTodoList] = useState<TodoListType[]>([]);
-  const [isSnackBarShowing, setIsSnackBarShowing] = useState(false);
-  const [snackBarMessage, setsnackBarMessage] = useState("");
+  const globalState = useContext(GlobalContext);
 
   const userToken = localStorage.getItem("userToken");
 
@@ -37,11 +37,22 @@ export default function TodoPage() {
   };
 
   const onCreateTodo = async (userToken: string | null, todo: string) => {
-    await fetchCreateTodo(userToken, todo);
+    const { error, message } = await fetchCreateTodo(userToken, todo);
+    if (error) {
+      globalState.setFetchState("error");
+      globalState.setFetchMessage(message);
+      globalState.setIsSnackBarActive(true);
+    }
     onReadTodoList();
   };
+
   const onDeleteTodo = async (userToken: string | null, todoId: number) => {
-    await fetchDeleteTodo(userToken, todoId);
+    const { error, message } = await fetchDeleteTodo(userToken, todoId);
+    if (error) {
+      globalState.setFetchState("error");
+      globalState.setFetchMessage(message);
+      globalState.setIsSnackBarActive(true);
+    }
     onReadTodoList();
   };
   const onUpdateTodo = async (
@@ -50,16 +61,31 @@ export default function TodoPage() {
     editTodo: string,
     isCompleted: boolean
   ) => {
-    await fetchUpdateTodo(userToken, id, editTodo, isCompleted);
+    const { error, message } = await fetchUpdateTodo(
+      userToken,
+      id,
+      editTodo,
+      isCompleted
+    );
+    if (error) {
+      globalState.setFetchState("error");
+      globalState.setFetchMessage(message);
+      globalState.setIsSnackBarActive(true);
+    } else {
+      globalState.setFetchState("success");
+      window.location.reload();
+    }
     onReadTodoList();
   };
 
   return (
     <>
-      {isSnackBarShowing && (
+      {globalState.isSnackBarActive && (
         <SnackBar
-          message={snackBarMessage}
-          setIsSnackBarShowing={setIsSnackBarShowing}
+          isSnackBarActive={globalState.isSnackBarActive}
+          setIsSnackBarShowing={globalState.setIsSnackBarActive}
+          fetchState={globalState.fetchState}
+          message={globalState.fetchMessage}
         />
       )}
       <S.TodoPageContainer>

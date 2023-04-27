@@ -7,7 +7,6 @@ export default function TodoList({
   onDeleteTodo,
   onUpdateTodo,
 }: TodoListPropsType) {
-  console.log(todoList);
   return (
     <S.TodoListContainer className="TodoList">
       <ul>

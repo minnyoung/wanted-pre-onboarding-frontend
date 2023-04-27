@@ -3,11 +3,15 @@ import styled, { keyframes } from "styled-components";
 
 type SnackBarType = {
   message: string;
+  isSnackBarActive: boolean;
+  fetchState: string;
   setIsSnackBarShowing: (isSnackBarShowing: boolean) => void;
 };
 
 export default function SnackBar({
   message,
+  isSnackBarActive,
+  fetchState,
   setIsSnackBarShowing,
 }: SnackBarType) {
   useEffect(() => {
@@ -16,27 +20,35 @@ export default function SnackBar({
       clearTimeout(timer);
     };
   }, []);
-
   return (
-    <S.SnackBarContainer>
-      <S.SnackBarMessage>
-        <span className="material-symbols-outlined">error</span>
-        {message}
-      </S.SnackBarMessage>
-    </S.SnackBarContainer>
+    <>
+      {isSnackBarActive ? (
+        <S.SnackBarContainer show={true} fetchState={fetchState}>
+          <S.SnackBarMessage>
+            <span className="material-symbols-outlined">error</span>
+            {message}
+          </S.SnackBarMessage>
+        </S.SnackBarContainer>
+      ) : (
+        <S.SnackBarContainer show={false}></S.SnackBarContainer>
+      )}
+    </>
   );
 }
 
 const S = {
-  SnackBarContainer: styled.div`
+  SnackBarContainer: styled.div<{ show: boolean; fetchState?: string }>`
     position: absolute;
     z-index: 999;
+    visibility: ${({ show }) => (show ? "visible" : "hidden")};
+
     bottom: 20%;
 
     width: 300px;
     height: 50px;
     border-radius: 10px;
-    background-color: #ff3a3ac4;
+    background-color: ${({ fetchState }) =>
+      fetchState === "error" ? "#ff5656" : "#21c92f"};
 
     animation: openSnackBar 0.07s linear;
 

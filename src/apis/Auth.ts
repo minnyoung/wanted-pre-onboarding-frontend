@@ -1,11 +1,7 @@
 import { NavigateFunction } from "react-router-dom";
 import { BASE_URL } from "./const";
 
-export async function handleSignIn(
-  userEmail: string,
-  userPassWord: string,
-  navigate: NavigateFunction
-) {
+export async function fetchSignIn(userEmail: string, userPassWord: string) {
   try {
     const response = await fetch(`${BASE_URL}/auth/signin`, {
       method: "post",
@@ -15,20 +11,26 @@ export async function handleSignIn(
       body: JSON.stringify({ email: userEmail, password: userPassWord }),
     });
     if (!response.ok) {
-      const errorResponse = await response.json();
-      throw new Error(errorResponse.message);
+      throw response.status;
     }
     const responseData = await response.json();
     localStorage.setItem("userToken", responseData.access_token);
-    navigate("/todo");
     return { message: "로그인 되었습니다." };
   } catch (error) {
-    console.error("Error", error);
-    return { message: "로그인 도중 에러가 발생했습니다.", error };
+    if (error === 401) {
+      return {
+        error,
+        message: "이메일 혹은 비밀번호가 틀렸습니다.",
+      };
+    }
+    return {
+      error,
+      message: "로그인 중 에러가 발생했습니다.",
+    };
   }
 }
 
-export async function handleSignUp(
+export async function fetchSignUp(
   userEmail: string,
   userPassWord: string,
   navigate: NavigateFunction
@@ -42,13 +44,20 @@ export async function handleSignUp(
       body: JSON.stringify({ email: userEmail, password: userPassWord }),
     });
     if (!response.ok) {
-      const errorResponse = await response.json();
-      throw new Error(errorResponse.message);
+      throw response.status;
     }
     navigate("/signin");
     return { message: "회원가입이 완료되었습니다." };
   } catch (error) {
-    console.error("Error", error);
-    return { message: "회원가입 중 에러가 발생했습니다.", error };
+    if (error === 400) {
+      return {
+        error,
+        message: "존재하는 이메일입니다. 다시 입력해주세요.",
+      };
+    }
+    return {
+      error,
+      message: "회원가입 중 에러가 발생했습니다.",
+    };
   }
 }

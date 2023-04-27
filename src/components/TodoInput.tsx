@@ -7,7 +7,7 @@ type TodoInputType = {
 
 export default function TodoInput({ onCreateTodo }: TodoInputType) {
   const userToken = localStorage.getItem("userToken");
-  const { userTodo, handleUserTodo } = useMakeUserTodo();
+  const { userTodo, setUserTodo, handleUserTodo } = useMakeUserTodo();
 
   return (
     <S.TodoInputContainer>
@@ -21,7 +21,10 @@ export default function TodoInput({ onCreateTodo }: TodoInputType) {
       <button
         type="button"
         data-testid="new-todo-add-button"
-        onClick={() => onCreateTodo(userToken, userTodo)}
+        onClick={() => {
+          onCreateTodo(userToken, userTodo);
+          setUserTodo("");
+        }}
       >
         추가
       </button>
