@@ -1,12 +1,6 @@
 import React from "react";
+import { ConfirmModalType } from "../types/modalToast.type";
 import { confirmModalStyle as S } from "../styles/confirmModalStyle";
-
-type ConfirmModalType = {
-  todoId: number;
-  userToken: string | null;
-  setIsModalVisible: (isVisible: boolean) => void;
-  onDeleteTodo: (userToken: string | null, todoId: number) => Promise<void>;
-};
 
 export default function ConfirmModal({
   todoId,

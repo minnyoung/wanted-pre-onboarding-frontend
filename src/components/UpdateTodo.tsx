@@ -2,19 +2,7 @@ import React, { useEffect } from "react";
 import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import useMakeTodoCheckBox from "../hooks/useMakeTodoCheckBox";
 import { updateTodoStyle as S } from "./../styles/updateTodoStyle";
-
-type UpdateTodoType = {
-  serverTodo: string | undefined;
-  serverIsCompleted: boolean;
-  todoId: number;
-  setIsEditTodoState: (state: boolean) => void;
-  onUpdateTodo: (
-    userToken: string | null,
-    id: number,
-    editTodo: string,
-    isCompleted: boolean
-  ) => Promise<void>;
-};
+import { UpdateTodoType } from "../types/todo.type";
 
 export default function UpdateTodo({
   serverTodo,

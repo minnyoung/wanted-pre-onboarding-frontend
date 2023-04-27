@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TodoType } from "../types/todoList.type";
+import { TodoType } from "../types/todo.type";
 import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
 import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import UpdateTodo from "./UpdateTodo";

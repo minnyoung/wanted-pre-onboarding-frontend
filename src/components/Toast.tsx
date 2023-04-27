@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
+import { ToastType } from "../types/modalToast.type";
 import { toastStyle as S } from "../styles/toastStyle";
-
-type ToastType = {
-  message: string;
-  isToastActive: boolean;
-  fetchState: string;
-  setIsToastShowing: (isToastShowing: boolean) => void;
-};
 
 export default function Toast({
   message,

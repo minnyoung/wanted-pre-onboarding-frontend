@@ -1,9 +1,6 @@
 import useMakeUserTodo from "../hooks/useMakeUserTodo";
+import { TodoInputType } from "../types/todo.type";
 import { todoInputStyle as S } from "./../styles/todoStyle";
-
-type TodoInputType = {
-  onCreateTodo: (userToken: string | null, userTodo: string) => void;
-};
 
 export default function TodoInput({ onCreateTodo }: TodoInputType) {
   const userToken = localStorage.getItem("userToken");

@@ -16,6 +16,10 @@ export type TodoListPropsType = {
   onDeleteTodo: (userToken: string | null, todoId: number) => Promise<void>;
 };
 
+export type TodoInputType = {
+  onCreateTodo: (userToken: string | null, userTodo: string) => void;
+};
+
 export type TodoType = {
   todo: TodoListType;
   onUpdateTodo: (
@@ -25,4 +29,17 @@ export type TodoType = {
     isCompleted: boolean
   ) => Promise<void>;
   onDeleteTodo: (userToken: string | null, todoId: number) => Promise<void>;
+};
+
+export type UpdateTodoType = {
+  serverTodo: string | undefined;
+  serverIsCompleted: boolean;
+  todoId: number;
+  setIsEditTodoState: (state: boolean) => void;
+  onUpdateTodo: (
+    userToken: string | null,
+    id: number,
+    editTodo: string,
+    isCompleted: boolean
+  ) => Promise<void>;
 };

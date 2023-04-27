@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TodoList from "../components/TodoList";
-import { TodoListType } from "../types/todoList.type";
+import { TodoListType } from "../types/todo.type";
 import TodoHeader from "../components/TodoHeader";
 import TodoInput from "../components/TodoInput";
 import Toast from "../components/Toast";

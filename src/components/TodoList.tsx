@@ -1,5 +1,5 @@
 import Todo from "./Todo";
-import { TodoListPropsType, TodoListType } from "../types/todoList.type";
+import { TodoListPropsType, TodoListType } from "../types/todo.type";
 import { todoListStyle as S } from "../styles/todoPageStyle";
 
 export default function TodoList({
