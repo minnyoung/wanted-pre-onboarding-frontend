@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { mainPageStyle as S } from "../styles/mainPageStyle";
 
 export default function Main() {
   const navigate = useNavigate();
@@ -27,35 +27,3 @@ export default function Main() {
     </div>
   );
 }
-
-const S = {
-  TodoSpanContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `,
-
-  TodoSpan: styled.span`
-    font-size: 45px;
-    font-weight: 800;
-  `,
-
-  TodoDescSpan: styled.span`
-    color: gray;
-    font-size: 13px;
-  `,
-
-  MainButtonContainer: styled.div`
-    display: flex;
-    justify-content: space-between;
-
-    margin-top: 50px;
-    width: 150px;
-  `,
-
-  MainLink: styled.a`
-    :hover {
-      font-weight: 600;
-    }
-  `,
-};

@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useMakeUserTodo from "../hooks/useMakeUserTodo";
 import TodoList from "../components/TodoList";
-import { TodoListType } from "../types/todoList.type";
+import { TodoListType } from "../types/todo.type";
 import TodoHeader from "../components/TodoHeader";
 import TodoInput from "../components/TodoInput";
-import styled from "styled-components";
+import Toast from "../components/Toast";
+import {
+  fetchCreateTodo,
+  fetchDeleteTodo,
+  fetchReadTodoList,
+  fetchUpdateTodo,
+} from "../apis/todoApis";
+import { GlobalContext } from "../provider/GlobalProvider";
+import { todoPageStyle as S } from "../styles/todoPageStyle";
 
 export default function TodoPage() {
   const navigate = useNavigate();
-  const { userTodo, setUserTodo, handleUserTodo } = useMakeUserTodo();
   const [todoList, setTodoList] = useState<TodoListType[]>([]);
+  const globalState = useContext(GlobalContext);
+
   const userToken = localStorage.getItem("userToken");
 
   useEffect(() => {
@@ -19,62 +27,76 @@ export default function TodoPage() {
     }
   });
 
-  useEffect(fetchReadTodoList, []);
+  useEffect(() => {
+    onReadTodoList();
+  }, []);
 
-  function fetchReadTodoList() {
-    fetch("https://www.pre-onboarding-selection-task.shop/todos", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setTodoList(data);
-      });
-  }
+  const onReadTodoList = async () => {
+    const fetchedTodos = await fetchReadTodoList(userToken);
+    setTodoList(fetchedTodos);
+  };
 
-  async function fetchCreateTodoList() {
-    await fetch("https://www.pre-onboarding-selection-task.shop/todos", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        todo: `${userTodo}`,
-      }),
-    })
-      .then((response) => {
-        if (response.status !== 201) throw new Error(`${response.status}`);
-        setUserTodo("");
-        fetchReadTodoList();
-      })
-      .catch((error) =>
-        alert(`TODO를 등록하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
-      );
-  }
+  const onCreateTodo = async (userToken: string | null, todo: string) => {
+    const { error, message } = await fetchCreateTodo(userToken, todo);
+    if (error) {
+      globalState.setFetchState("error");
+      globalState.setFetchMessage(message);
+      globalState.setIsToastActive(true);
+    }
+    onReadTodoList();
+  };
+
+  const onDeleteTodo = async (userToken: string | null, todoId: number) => {
+    const { error, message } = await fetchDeleteTodo(userToken, todoId);
+    if (error) {
+      globalState.setFetchState("error");
+      globalState.setFetchMessage(message);
+      globalState.setIsToastActive(true);
+    }
+    onReadTodoList();
+  };
+  const onUpdateTodo = async (
+    userToken: string | null,
+    id: number,
+    editTodo: string,
+    isCompleted: boolean
+  ) => {
+    const { error, message } = await fetchUpdateTodo(
+      userToken,
+      id,
+      editTodo,
+      isCompleted
+    );
+    if (error) {
+      globalState.setFetchState("error");
+      globalState.setFetchMessage(message);
+      globalState.setIsToastActive(true);
+    } else {
+      globalState.setFetchState("success");
+      window.location.reload();
+    }
+    onReadTodoList();
+  };
 
   return (
-    <S.TodoPageContainer>
-      <TodoHeader />
-      <TodoInput
-        userTodo={userTodo}
-        handleUserTodo={handleUserTodo}
-        fetchCreateTodoList={fetchCreateTodoList}
-      />
-      <TodoList todoList={todoList} fetchReadTodoList={fetchReadTodoList} />
-    </S.TodoPageContainer>
+    <>
+      {globalState.isToastActive && (
+        <Toast
+          isToastActive={globalState.isToastActive}
+          setIsToastShowing={globalState.setIsToastActive}
+          fetchState={globalState.fetchState}
+          message={globalState.fetchMessage}
+        />
+      )}
+      <S.TodoPageContainer>
+        <TodoHeader />
+        <TodoInput onCreateTodo={onCreateTodo} />
+        <TodoList
+          todoList={todoList}
+          onDeleteTodo={onDeleteTodo}
+          onUpdateTodo={onUpdateTodo}
+        />
+      </S.TodoPageContainer>
+    </>
   );
 }
-
-const S = {
-  TodoPageContainer: styled.div`
-    padding: 15px 25px;
-    width: 100%;
-    height: 700px;
-    border: 1px solid gray;
-    border-radius: 5px;
-    background-color: white;
-  `,
-};

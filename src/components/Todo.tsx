@@ -1,71 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { TodoType } from "../types/todoList.type";
+import { TodoType } from "../types/todo.type";
 import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
 import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import UpdateTodo from "./UpdateTodo";
-import styled from "styled-components";
+import ConfirmModal from "./ConfirmModal";
+import { todoStyle as S } from "../styles/todoStyle";
 
-export default function Todo({ todo, fetchReadTodoList }: TodoType) {
+export default function Todo({ todo, onDeleteTodo, onUpdateTodo }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
     useMakeTodoCheckBox();
   const { editTodo, setEditTodo } = useMakeEditTodoInput();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditTodoState, setIsEditTodoState] = useState(false);
+  const [todoContents, setTodoContents] = useState("");
+
   const userToken = localStorage.getItem("userToken");
 
   useEffect(() => {
     setIsCompleted(todo.isCompleted);
     setEditTodo(todo.todo);
+    setTodoContents(
+      todo.todo.length > 16 ? `${todo.todo.slice(0, 16)}...` : todo.todo
+    );
   }, []);
-
-  function confirmDeleteTodo() {
-    const deleteTodoAnswer = window.confirm("삭제하시겠습니까?");
-    return deleteTodoAnswer;
-  }
-
-  async function fetchDeleteTodo() {
-    confirmDeleteTodo() &&
-      (await fetch(
-        `https://www.pre-onboarding-selection-task.shop/todos/${todo.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      )
-        .then((response) => {
-          if (response.status !== 204) throw new Error(`${response.status}`);
-          fetchReadTodoList();
-        })
-        .catch((error) =>
-          alert(`TODO를 삭제하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
-        ));
-  }
-
-  async function fetchUpdateTodo(editTodo: string, isCompleted: boolean) {
-    await fetch(
-      `https://www.pre-onboarding-selection-task.shop/todos/${todo.id}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          todo: `${editTodo}`,
-          isCompleted: isCompleted,
-        }),
-      }
-    )
-      .then((response) => {
-        if (response.status !== 200) throw new Error(`${response.status}`);
-        window.location.reload();
-      })
-      .catch((error) =>
-        alert(`TODO를 수정하던 중 에러가 발생했습니다. \n에러내용 ${error}`)
-      );
-  }
 
   return (
     <li>
@@ -74,7 +32,8 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
           setIsEditTodoState={setIsEditTodoState}
           serverIsCompleted={isCompleted}
           serverTodo={editTodo}
-          fetchUpdateTodo={fetchUpdateTodo}
+          todoId={todo.id}
+          onUpdateTodo={onUpdateTodo}
         />
       ) : (
         <S.TodoContainer>
@@ -84,10 +43,26 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
               checked={isCompleted}
               onChange={handleTodoCheckBox}
               onClick={(event) =>
-                fetchUpdateTodo(editTodo, event.currentTarget.checked)
+                onUpdateTodo(
+                  userToken,
+                  todo.id,
+                  editTodo,
+                  event.currentTarget.checked
+                )
               }
             />
-            <span>{todo.todo}</span>
+            <span
+              onMouseEnter={() => setTodoContents(todo.todo)}
+              onMouseLeave={() =>
+                setTodoContents(
+                  todo.todo.length > 16
+                    ? `${todo.todo.slice(0, 16)}...`
+                    : todo.todo
+                )
+              }
+            >
+              {todoContents}
+            </span>
           </S.TodoInputSpanContainer>
           <S.TodoButtonContainer>
             <button
@@ -103,40 +78,22 @@ export default function Todo({ todo, fetchReadTodoList }: TodoType) {
             <button
               type="button"
               data-testid="delete-button"
-              onClick={fetchDeleteTodo}
+              onClick={() => setIsModalVisible(true)}
               title="삭제"
             >
               <span className="material-symbols-outlined">delete_forever</span>
             </button>
+            {isModalVisible && (
+              <ConfirmModal
+                todoId={todo.id}
+                userToken={userToken}
+                setIsModalVisible={setIsModalVisible}
+                onDeleteTodo={onDeleteTodo}
+              />
+            )}
           </S.TodoButtonContainer>
         </S.TodoContainer>
       )}
     </li>
   );
 }
-
-const S = {
-  TodoContainer: styled.div`
-    margin-bottom: 5px;
-    display: flex;
-  `,
-  TodoInputSpanContainer: styled.label`
-    flex: 1;
-    input {
-      margin-right: 10px;
-    }
-  `,
-  TodoButtonContainer: styled.div`
-    button {
-      span {
-        width: 80%;
-        font-size: 20px;
-        color: gray;
-        :hover {
-          text-decoration: underline;
-          color: black;
-        }
-      }
-    }
-  `,
-};
