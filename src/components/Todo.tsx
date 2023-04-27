@@ -3,8 +3,8 @@ import { TodoType } from "../types/todoList.type";
 import useMakeTodoCheckBox from "./../hooks/useMakeTodoCheckBox";
 import useMakeEditTodoInput from "../hooks/useMakeEditTodoInput";
 import UpdateTodo from "./UpdateTodo";
-import styled from "styled-components";
 import ConfirmModal from "./ConfirmModal";
+import { todoStyle as S } from "../styles/todoStyle";
 
 export default function Todo({ todo, onDeleteTodo, onUpdateTodo }: TodoType) {
   const { isCompleted, setIsCompleted, handleTodoCheckBox } =
@@ -97,29 +97,3 @@ export default function Todo({ todo, onDeleteTodo, onUpdateTodo }: TodoType) {
     </li>
   );
 }
-
-const S = {
-  TodoContainer: styled.div`
-    margin-bottom: 5px;
-    display: flex;
-  `,
-  TodoInputSpanContainer: styled.label`
-    flex: 1;
-    input {
-      margin-right: 10px;
-    }
-  `,
-  TodoButtonContainer: styled.div`
-    button {
-      span {
-        width: 80%;
-        font-size: 20px;
-        color: gray;
-        :hover {
-          text-decoration: underline;
-          color: black;
-        }
-      }
-    }
-  `,
-};

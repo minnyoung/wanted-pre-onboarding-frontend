@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { todoHeaderStyle as S } from "../styles/todoStyle";
 
 export default function TodoHeader() {
   const navigate = useNavigate();
@@ -13,18 +13,3 @@ export default function TodoHeader() {
     </S.TodoHeaderContainer>
   );
 }
-
-const S = {
-  TodoHeaderContainer: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 6px;
-
-    button {
-      font-size: 13px;
-      :hover {
-        text-decoration: underline;
-      }
-    }
-  `,
-};

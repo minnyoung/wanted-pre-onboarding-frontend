@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import useMakeUserTodo from "../hooks/useMakeUserTodo";
+import { todoInputStyle as S } from "./../styles/todoStyle";
 
 type TodoInputType = {
   onCreateTodo: (userToken: string | null, userTodo: string) => void;
@@ -31,26 +31,3 @@ export default function TodoInput({ onCreateTodo }: TodoInputType) {
     </S.TodoInputContainer>
   );
 }
-
-const S = {
-  TodoInputContainer: styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin: 15px 0;
-    input {
-      width: 260px;
-      font-size: 17px;
-      line-height: 2;
-      border-bottom: 1px solid gray;
-    }
-    button {
-      width: 50px;
-      border: 1px solid gray;
-      border-radius: 5px;
-      :hover {
-        background-color: #f0f0f0;
-        transition: 0.1s ease-in-out;
-      }
-    }
-  `,
-};

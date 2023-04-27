@@ -4,7 +4,6 @@ import TodoList from "../components/TodoList";
 import { TodoListType } from "../types/todoList.type";
 import TodoHeader from "../components/TodoHeader";
 import TodoInput from "../components/TodoInput";
-import styled from "styled-components";
 import Toast from "../components/Toast";
 import {
   fetchCreateTodo,
@@ -13,6 +12,7 @@ import {
   fetchUpdateTodo,
 } from "../apis/todoApis";
 import { GlobalContext } from "../provider/GlobalProvider";
+import { todoPageStyle as S } from "../styles/todoPageStyle";
 
 export default function TodoPage() {
   const navigate = useNavigate();
@@ -100,14 +100,3 @@ export default function TodoPage() {
     </>
   );
 }
-
-const S = {
-  TodoPageContainer: styled.div`
-    padding: 15px 25px;
-    width: 100%;
-    height: 700px;
-    border: 1px solid gray;
-    border-radius: 5px;
-    background-color: white;
-  `,
-};
