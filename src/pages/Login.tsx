@@ -3,8 +3,8 @@ import useMakeEmail from "../hooks/useMakeEmail";
 import useMakePassWord from "../hooks/useMakePassWord";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { fetchSignIn } from "../apis/Auth";
-import SnackBar from "../components/SnackBar";
+import { fetchSignIn } from "../apis/authApis";
+import Toast from "../components/Toast";
 import { GlobalContext } from "../provider/GlobalProvider";
 
 export default function Login() {
@@ -30,15 +30,15 @@ export default function Login() {
       globalState.setFetchState("success");
       globalState.setFetchMessage(message);
     }
-    globalState.setIsSnackBarActive(true);
+    globalState.setIsToastActive(true);
   }
 
   return (
     <>
-      {globalState.isSnackBarActive && (
-        <SnackBar
-          isSnackBarActive={globalState.isSnackBarActive}
-          setIsSnackBarShowing={globalState.setIsSnackBarActive}
+      {globalState.isToastActive && (
+        <Toast
+          isToastActive={globalState.isToastActive}
+          setIsToastShowing={globalState.setIsToastActive}
           fetchState={globalState.fetchState}
           message={globalState.fetchMessage}
         />

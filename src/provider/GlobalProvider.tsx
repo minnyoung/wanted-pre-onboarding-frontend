@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 export interface GlobalState {
-  isSnackBarActive: boolean;
-  setIsSnackBarActive: (isSnackBarActive: boolean) => void;
+  isToastActive: boolean;
+  setIsToastActive: (isToastActive: boolean) => void;
   fetchState: string;
   setFetchState: (fetchState: string) => void;
   fetchMessage: string;
@@ -10,8 +10,8 @@ export interface GlobalState {
 }
 
 export const GlobalContext = React.createContext<GlobalState>({
-  isSnackBarActive: false,
-  setIsSnackBarActive: () => {},
+  isToastActive: false,
+  setIsToastActive: () => {},
   fetchState: "",
   setFetchState: () => {},
   fetchMessage: "",
@@ -23,13 +23,13 @@ interface GlobalProviderProps {
 }
 
 const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
-  const [isSnackBarActive, setIsSnackBarActive] = useState(false);
+  const [isToastActive, setIsToastActive] = useState(false);
   const [fetchState, setFetchState] = useState("");
   const [fetchMessage, setFetchMessage] = useState("");
 
   const state: GlobalState = {
-    isSnackBarActive,
-    setIsSnackBarActive,
+    isToastActive,
+    setIsToastActive,
     fetchState,
     setFetchState,
     fetchMessage,

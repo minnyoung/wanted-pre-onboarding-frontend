@@ -5,13 +5,13 @@ import { TodoListType } from "../types/todoList.type";
 import TodoHeader from "../components/TodoHeader";
 import TodoInput from "../components/TodoInput";
 import styled from "styled-components";
-import SnackBar from "../components/SnackBar";
+import Toast from "../components/Toast";
 import {
   fetchCreateTodo,
   fetchDeleteTodo,
   fetchReadTodoList,
   fetchUpdateTodo,
-} from "../apis/Todo";
+} from "../apis/todoApis";
 import { GlobalContext } from "../provider/GlobalProvider";
 
 export default function TodoPage() {
@@ -41,7 +41,7 @@ export default function TodoPage() {
     if (error) {
       globalState.setFetchState("error");
       globalState.setFetchMessage(message);
-      globalState.setIsSnackBarActive(true);
+      globalState.setIsToastActive(true);
     }
     onReadTodoList();
   };
@@ -51,7 +51,7 @@ export default function TodoPage() {
     if (error) {
       globalState.setFetchState("error");
       globalState.setFetchMessage(message);
-      globalState.setIsSnackBarActive(true);
+      globalState.setIsToastActive(true);
     }
     onReadTodoList();
   };
@@ -70,7 +70,7 @@ export default function TodoPage() {
     if (error) {
       globalState.setFetchState("error");
       globalState.setFetchMessage(message);
-      globalState.setIsSnackBarActive(true);
+      globalState.setIsToastActive(true);
     } else {
       globalState.setFetchState("success");
       window.location.reload();
@@ -80,10 +80,10 @@ export default function TodoPage() {
 
   return (
     <>
-      {globalState.isSnackBarActive && (
-        <SnackBar
-          isSnackBarActive={globalState.isSnackBarActive}
-          setIsSnackBarShowing={globalState.setIsSnackBarActive}
+      {globalState.isToastActive && (
+        <Toast
+          isToastActive={globalState.isToastActive}
+          setIsToastShowing={globalState.setIsToastActive}
           fetchState={globalState.fetchState}
           message={globalState.fetchMessage}
         />

@@ -1,43 +1,43 @@
 import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
-type SnackBarType = {
+type ToastType = {
   message: string;
-  isSnackBarActive: boolean;
+  isToastActive: boolean;
   fetchState: string;
-  setIsSnackBarShowing: (isSnackBarShowing: boolean) => void;
+  setIsToastShowing: (isToastShowing: boolean) => void;
 };
 
-export default function SnackBar({
+export default function Toast({
   message,
-  isSnackBarActive,
+  isToastActive,
   fetchState,
-  setIsSnackBarShowing,
-}: SnackBarType) {
+  setIsToastShowing,
+}: ToastType) {
   useEffect(() => {
-    let timer = setTimeout(() => setIsSnackBarShowing(false), 2000);
+    let timer = setTimeout(() => setIsToastShowing(false), 2000);
     return () => {
       clearTimeout(timer);
     };
   }, []);
   return (
     <>
-      {isSnackBarActive ? (
-        <S.SnackBarContainer show={true} fetchState={fetchState}>
-          <S.SnackBarMessage>
+      {isToastActive ? (
+        <S.ToastContainer show={true} fetchState={fetchState}>
+          <S.ToastMessage>
             <span className="material-symbols-outlined">error</span>
             {message}
-          </S.SnackBarMessage>
-        </S.SnackBarContainer>
+          </S.ToastMessage>
+        </S.ToastContainer>
       ) : (
-        <S.SnackBarContainer show={false}></S.SnackBarContainer>
+        <S.ToastContainer show={false}></S.ToastContainer>
       )}
     </>
   );
 }
 
 const S = {
-  SnackBarContainer: styled.div<{ show: boolean; fetchState?: string }>`
+  ToastContainer: styled.div<{ show: boolean; fetchState?: string }>`
     position: absolute;
     z-index: 999;
     visibility: ${({ show }) => (show ? "visible" : "hidden")};
@@ -50,9 +50,9 @@ const S = {
     background-color: ${({ fetchState }) =>
       fetchState === "error" ? "#ff5656" : "#21c92f"};
 
-    animation: openSnackBar 0.07s linear;
+    animation: openToast 0.07s linear;
 
-    @keyframes openSnackBar {
+    @keyframes openToast {
       0% {
         opacity: 0;
       }
@@ -62,7 +62,7 @@ const S = {
     }
   `,
 
-  SnackBarMessage: styled.span`
+  ToastMessage: styled.span`
     display: flex;
     align-items: center;
     padding-left: 20px;
