@@ -6,7 +6,11 @@
 
 원티드 프리온보딩 4월 프론트엔드 인턴십 사전과제입니다.
 
-배포 링크 : https://wanted-internship-todo.vercel.app/
+**프로젝트 기간**: 2023년 4월 3일 ~ 2023년 4월 7일<br />
+(리팩토링은 인턴십 최종 발표 후 진행하였습니다.)
+
+**배포 링크**: https://wanted-internship-todo.vercel.app/
+
 
 <div> 
   <img src="https://img.shields.io/badge/React-18.2.0-61DAFB?logo=React"> 
@@ -18,40 +22,64 @@
 <br /><br />
 ## 목차
 - [프로젝트 실행 방법](#프로젝트-실행-방법)
+- [과제 제출 이후 리팩토링](#과제-제출-이후-리팩토링)
 - [데모 영상](#데모-영상)
-    - [회원가입](#회원가입)
-    - [로그인](#로그인)
-    - [TODO CRUD](#todo-crud)
-    - [Not Found](#not-found)
+    - [회원가입](#1-회원가입)
+    - [로그인](#2-로그인)
+    - [TODO CRUD](#3-todo-crud)
 - [구현 요구 사항 목록](#구현-요구-사항-목록)
-  - [로그인 / 회원가입](#1-로그인--회원가입)
-  - [TODO LIST](#2-todo-list)
+
 <br /><br />
 ## 프로젝트 실행 방법
 
 ```
-git clone 후
-
-npm install
-npm start
+$ npm install
+$ npm start
 ```
+<br />
+
+## 과제 제출 이후 리팩토링
+- todo api와 auth api 코드들을 각각의 파일로 분리했습니다.
+- TodoList page 너비, todo 입력하는 input 너비를 수정했습니다.
+- todo 항목의 내용이 일정길이 이상이면 todo 내용 뒤 ... 줄임표가 표현되도록 했고, todo 항목에 mouseEnter를 하게되면 todo 전체 내용이 보일 수 있도록 했습니다.
+- 삭제 confirm 과정을 모달로 구현했습니다.
+- 모든 aler는 토스트를 이용해 표현했고, contextAPI를 이용해 토스트의 visible 상태, 토스트 내 메세지, 토스트의 색상을 함께 관리했습니다.
+- style 코드를 분리했습니다.
+
+<br />
 
 ## 데모 영상
 
-### 회원가입
-![회원가입](https://user-images.githubusercontent.com/118191378/230623672-517bab56-fd8e-4abf-be86-5112a43e5937.gif)
+### 1. 회원가입
 
-### 로그인
-![녹화 로그인2](https://user-images.githubusercontent.com/118191378/230623888-5acfa44f-e4e8-455a-8eb7-3cacbbfe8574.gif)
+|![투두회원가입완료](https://user-images.githubusercontent.com/118191378/235286231-1e92e26f-5bd9-4fc2-ab7c-3545138029b8.gif)|![투두회원가입에러](https://user-images.githubusercontent.com/118191378/235286225-9daac0f2-1d57-408a-bae1-8e350db860db.gif)|![투두회원가입동일이메일있음](https://user-images.githubusercontent.com/118191378/235286324-726a047a-4bca-4c5c-9f56-6e84c9ca54d9.gif)|
+|:--:|:--:|:--:|
+|회원가입 성공|회원가입 실패<br />(서버에러 등)|회원가입 실패<br />(동일이메일 있을 경우)|
 
-### TODO CRUD
-![녹화 crud2](https://user-images.githubusercontent.com/118191378/230624004-b455b43f-3eef-4a06-a265-2ce437422cc2.gif)
+### 2. 로그인
 
-### Not Found
-![녹화 4042](https://user-images.githubusercontent.com/118191378/230624085-da5d01fa-a50b-4000-a766-218ec4217959.gif)
+|![투두로그인정상](https://user-images.githubusercontent.com/118191378/235286359-d62580ea-99d0-4c58-994d-de8a47efdba7.gif)|![투두로그인잘못시도](https://user-images.githubusercontent.com/118191378/235286355-a5fa0f63-3044-4978-9f1b-e77f83682bd2.gif)|![투두로그인비번틀림](https://user-images.githubusercontent.com/118191378/235286348-24c36b85-7c6a-4aaa-86ee-376112b92a0e.gif)|
+|:--:|:--:|:--:|
+|로그인 성공|로그인 실패<br />(서버에러 등)|로그인 실패<br />(이메일 혹은 비밀번호 오류)|
+
+### 3. TODO CRUD
+
+#### 3.1. TODO Create
+|![투두투두생성](https://user-images.githubusercontent.com/118191378/235286510-5a02fb8a-552a-4da6-a46f-3d41dacf5430.gif)|![투두생성시 빈간입력했을때](https://user-images.githubusercontent.com/118191378/235286515-287b6310-436d-4a14-93eb-b5676ae10e3c.gif)
+|:--:|:--:|
+|todo 생성|todo 생성 실패<br />(빈칸으로 추가시)|
+
+#### 3.2. TODO Update, Delete
+|![투두투두수정](https://user-images.githubusercontent.com/118191378/235286520-14e740d6-b32a-4a6a-aac4-3d6d72f8cd7a.gif)|![투두투두삭제](https://user-images.githubusercontent.com/118191378/235286529-91f98e1a-4bcc-45ce-aff3-5009ff0fa31c.gif)
+|:--:|:--:|
+|todo 수정|todo 삭제|
 
 
 ## 구현 요구 사항 목록
+
+<details>
+<summary>구현 요구 사항 목록</summary>
+<div markdown="1">
 
 ### 1. 로그인 / 회원가입
 - [x] /signup 경로에 회원가입 기능을 개발해주세요
@@ -116,3 +144,8 @@ npm start
 - [x] 취소버튼에는 data-testid="cancel-button" 속성을 부여해주세요
 - [x] 제출버튼을 누르면 수정한 내용을 제출해서 내용이 업데이트 될 수 있도록 해주세요
 - [x] 취소버튼을 누르면 수정한 내용을 초기화 하고, 수정모드를 비활성화 해주세요
+
+
+</div>
+</details>
+
